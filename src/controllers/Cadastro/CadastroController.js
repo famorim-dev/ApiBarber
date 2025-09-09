@@ -1,7 +1,7 @@
 import User from "../../models/User.js"
 
 // Controller de Cadastro de usuarios
-export const cadastroUser = async (req, res) => {
+const cadastroUser = async (req, res) => {
     try{
         const userToCreate = {
         name: req.body.name,
