@@ -1,0 +1,6 @@
+CREATE TABLE acesso_usuario (
+    id TEXT PRIMARY KEY UNIQUE NOT NULL,
+    email TEXT NOT NULL UNIQUE,
+    senha TEXT NOT NULL,
+    role TEXT NOT NULL
+);
