@@ -4,6 +4,7 @@ import com.example.demo.dto.AuthRegistroDTO;
 import com.example.demo.dto.AuthenticationDTO;
 import com.example.demo.model.Usuario;
 import com.example.demo.repository.UsuarioRepository;
+import com.example.demo.service.seguranca.TokenService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -20,6 +21,9 @@ import org.springframework.web.bind.annotation.RestController;
 public class AuthLogin {
 
     @Autowired
+    TokenService tokenService;
+
+    @Autowired
     UsuarioRepository usuarioRepository;
 
     @Autowired
@@ -30,7 +34,9 @@ public class AuthLogin {
         var usuarioSenha = new UsernamePasswordAuthenticationToken(data.email(), data.senha());
         var auth = authenticationManager.authenticate(usuarioSenha);
 
-        return ResponseEntity.ok().build();
+        var token = tokenService.gerarToken((Usuario) auth.getPrincipal());
+
+        return ResponseEntity.ok(token);
     }
 
     @PostMapping("/registro")
