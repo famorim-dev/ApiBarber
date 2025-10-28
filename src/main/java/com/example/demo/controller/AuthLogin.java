@@ -2,6 +2,7 @@ package com.example.demo.controller;
 
 import com.example.demo.dto.AuthRegistroDTO;
 import com.example.demo.dto.AuthenticationDTO;
+import com.example.demo.model.Role;
 import com.example.demo.model.Usuario;
 import com.example.demo.repository.UsuarioRepository;
 import com.example.demo.service.seguranca.TokenService;
@@ -44,7 +45,7 @@ public class AuthLogin {
         if(this.usuarioRepository.findByEmail(data.email()) != null) return ResponseEntity.badRequest().build(); // Se nao existir nenhum usuario(email) crie um com esse email
 
         String senhaCriptografada = new BCryptPasswordEncoder().encode(data.senha());
-        Usuario usuario = new Usuario(data.email(), senhaCriptografada, data.role());
+        Usuario usuario = new Usuario(data.email(), senhaCriptografada, Role.USER);
 
         this.usuarioRepository.save(usuario);
         return ResponseEntity.ok().build();
