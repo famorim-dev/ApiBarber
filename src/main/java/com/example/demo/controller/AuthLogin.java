@@ -2,6 +2,7 @@ package com.example.demo.controller;
 
 import com.example.demo.dto.AuthRegistroDTO;
 import com.example.demo.dto.AuthenticationDTO;
+import com.example.demo.dto.EsqueceuSenhaDTO;
 import com.example.demo.model.Role;
 import com.example.demo.model.Usuario;
 import com.example.demo.repository.UsuarioRepository;
@@ -48,6 +49,16 @@ public class AuthLogin {
         Usuario usuario = new Usuario(data.email(), senhaCriptografada, Role.USER);
 
         this.usuarioRepository.save(usuario);
+        return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/esqueceu")
+    public ResponseEntity esqueceuSenha(@RequestBody @Valid EsqueceuSenhaDTO data){
+        Usuario usuario = (Usuario) this.usuarioRepository.findByEmail(data.email());
+        if (usuario == null) return ResponseEntity.notFound().build();
+
+        if (!usuario.getEmail().equalsIgnoreCase(data.email())) return ResponseEntity.ok().build();
+
         return ResponseEntity.ok().build();
     }
 }
